@@ -33,9 +33,11 @@ class Server:
     HAS_SSL = str(env.get("HAS_SSL", "0").lower()) in ("1", "true", "t", "yes", "y")
     NO_PORT = str(env.get("NO_PORT", "0").lower()) in ("1", "true", "t", "yes", "y")
     FQDN = str(env.get("FQDN", BIND_ADDRESS))
-    URL = "http{}://{}{}/".format(
+    
+    # Define BASE_URL with default to Heroku-like URL structure
+    BASE_URL = env.get("BASE_URL", "http{}://{}{}/".format(
         "s" if HAS_SSL else "", FQDN, "" if NO_PORT else ":" + str(PORT)
-    )
+    ))
 
-
-
+    # URL property for compatibility with existing code
+    URL = BASE_URL
